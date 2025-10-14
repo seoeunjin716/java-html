@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="/">
+  <title>온실가스 산정 | 탄소 관리 시스템</title>
+  <link rel="stylesheet" href="/styles/index.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      padding: 30px 0;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .header h1 { font-size: 2.4rem; margin: 0; color: #fff; }
+    nav {
+      background-color: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      padding: 15px 0;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav a:hover, nav a.active { color: #ffd700; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 50px 20px; }
+    .section {
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .section h2 {
+      color: #ffd700;
+      margin-bottom: 15px;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      padding-bottom: 8px;
+    }
+    .section p { line-height: 1.7; color: #f3f3f3; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>온실가스 배출량 산정</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="/index.html">홈</a></li>
+      <li><a href="/about.html">소개</a></li>
+      <li><a href="/lca.html">LCA 분석</a></li>
+      <li><a href="/emission.html" class="active">온실가스 산정</a></li>
+      <li><a href="/report.html">공시 리포트</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <section class="section">
+      <h2>온실가스 산정이란?</h2>
+      <p>
+        온실가스 배출량 산정은 기업의 모든 활동에서 발생하는 
+        이산화탄소(CO₂) 및 기타 온실가스를 정량적으로 계산하는 과정입니다.  
+        주요 기준은 <strong>GHG Protocol</strong>과 <strong>IPCC 가이드라인</strong>을 따릅니다.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Scope 1, 2, 3의 이해</h2>
+      <p>
+        - <strong>Scope 1:</strong> 직접 배출 (예: 보일러, 차량 연료 사용)<br>
+        - <strong>Scope 2:</strong> 간접 배출 (전력 사용 등)<br>
+        - <strong>Scope 3:</strong> 기타 간접 배출 (협력사, 물류 등)
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>자동화된 산정 기능</h2>
+      <p>
+        탄소 관리 시스템은 기업의 활동 데이터를 자동 수집해 
+        배출량을 실시간으로 계산하고, 감축 목표와 비교할 수 있습니다.
+      </p>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>회사 소개 | 탄소 관리 시스템</title>
+  <link rel="stylesheet" href="/styles/index.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      padding: 30px 0;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    nav {
+      background-color: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      padding: 15px 0;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffd700;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 50px 20px;
+    }
+
+    .section {
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .section h2 {
+      color: #ffd700;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      padding-bottom: 8px;
+    }
+
+    .section p {
+      line-height: 1.7;
+      color: #f3f3f3;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h1>회사 소개</h1>
+    <p>지속 가능한 미래를 위한 탄소 관리 솔루션</p>
+  </header>
+
+  <!-- ✅ 네비게이션 -->
+  <nav>
+    <ul>
+      <li><a href="/">홈</a></li>
+      <li><a href="/about" class="active">소개</a></li>
+      <li><a href="/lca">LCA 분석</a></li>
+      <li><a href="/emission">온실가스 산정</a></li>
+      <li><a href="/report">공시 리포트</a></li>
+      <li><a href="/login">로그인</a></li>
+      <li><a href="/signup">회원가입</a></li>
+    </ul>
+  </nav>
+
+  <!-- ✅ 본문 내용 -->
+  <div class="container">
+
+    <!-- 회사 소개 -->
+    <section class="section">
+      <h2>회사 소개</h2>
+      <p>
+        저희 <strong>탄소 관리 시스템</strong>은 기업과 기관이 ESG 시대에 맞춰 
+        체계적으로 <strong>탄소중립 전략</strong>을 수립하고 실행할 수 있도록 지원하는 
+        환경 기술 기반 플랫폼입니다.  
+        온실가스 데이터 관리부터 LCA 분석, 공시 리포트 자동화까지  
+        원스톱으로 제공합니다.
+      </p>
+    </section>
+
+    <!-- 탄소중립 -->
+    <section class="section">
+      <h2>탄소중립(Carbon Neutrality)</h2>
+      <p>
+        탄소중립은 배출된 온실가스의 총량을 감축하거나 상쇄하여 
+        ‘순 배출량 0’을 달성하는 것을 의미합니다.  
+        본 시스템은 기업이 배출량을 정량적으로 파악하고 
+        감축 계획을 수립할 수 있도록 지원합니다.
+      </p>
+    </section>
+
+    <!-- 온실가스 배출량 산정 -->
+    <section class="section">
+      <h2>온실가스 배출량 산정</h2>
+      <p>
+        배출량 산정은 국제 기준(GHG Protocol, IPCC 가이드라인 등)에 따라  
+        스코프(Scope 1, 2, 3)별 데이터를 관리합니다.  
+        자동화된 데이터 수집과 분석을 통해 
+        투명하고 정확한 산정 결과를 제공합니다.
+      </p>
+    </section>
+
+    <!-- LCA(전과정평가) -->
+    <section class="section">
+      <h2>LCA (Life Cycle Assessment)</h2>
+      <p>
+        LCA는 제품의 생산부터 폐기까지 전 과정에서 발생하는 
+        환경 영향을 평가하는 방법론입니다.  
+        탄소 관리 시스템은 LCA 데이터베이스와 연동되어  
+        제품 단위의 탄소발자국을 산출할 수 있습니다.
+      </p>
+    </section>
+
+    <!-- 공시 기준 -->
+    <section class="section">
+      <h2>공시 기준 및 보고</h2>
+      <p>
+        ESG 공시는 국내외 규제 및 표준(GRI, TCFD, ISSB 등)에 따라  
+        탄소 배출 관련 데이터를 투명하게 공개해야 합니다.  
+        본 시스템은 자동화된 리포트 생성 기능을 제공하여  
+        기업이 신속하고 정확하게 공시 요건을 충족할 수 있도록 돕습니다.
+      </p>
+    </section>
+
+  </div>
+
+</body>
+</html>

@@ -1,23 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <nav>
-        <div class="logo">Creative Hub</div>
-        <ul class="nav-links">
-          <li><a href="/">홈</a></li>
-          <li><a href="/about">소개</a></li>
-          <li><a href="/lca">LCA 분석</a></li>
-          <li><a href="/emission">온실가스 산정</a></li>
-          <li><a href="/report">공시 리포트</a></li>
-          <li><a href="/login">로그인</a></li>
-          <li><a href="/register">회원가입</a></li>
-        </ul>
-      </nav>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>탄소 관리 시스템 - 온실가스 배출량 산정 & LCA & 공시 기준</title>
-    <link rel="stylesheet" th:href="@{/styles/index.css}">
     <style>
         * {
             margin: 0;
@@ -139,11 +125,11 @@
             align-items: center;
             gap: 10px;
         }
-
+        
         .input-group {
             margin-bottom: 15px;
         }
-
+        
         .input-group label {
             display: block;
             margin-bottom: 8px;
@@ -459,102 +445,14 @@
             .tab-nav {
                 flex-direction: column;
             }
-                    /* 🔽 로그인 관련 스타일 추가 */
-        .login-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 70vh;
-        }
-
-        .login-box {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            width: 320px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-
-        .login-box input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-
-        .login-box button {
-            width: 100%;
-            background-color: #1e3c72;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .login-box button:hover {
-            background-color: #2a5298;
-        }
-
         }
     </style>
 </head>
-<div class="container">
-    <section class="login-section">
-        <div class="login-box">
-            <h2>로그인</h2>
-            <form id="loginForm">
-                <input type="email" id="email" placeholder="이메일" required>
-                <input type="password" id="password" placeholder="비밀번호" required>
-                <button type="submit">로그인</button>
-            </form>
-            <p>아직 회원이 아니신가요? <a href="/signup">회원가입</a></p>
-        </div>
-    </section>
-</div>
-<script>
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        alert("로그인 성공!");
-        localStorage.setItem("token", data.token);
-        window.location.href = "/";
-      } else {
-        alert(data.message || "로그인 실패");
-      }
-    });
-    </script>
-</body>
-</html>
-
 <body>
     <div class="header">
         <h1>🌍 탄소 관리 시스템</h1>
         <p>온실가스 배출량 산정 • LCA 산정 • 공시 기준 통합 관리</p>
     </div>
-
-    <!-- 히어로 섹션 -->
-    <section class="hero" id="index">
-        <div class="hero-content">
-        <li><a href="/contents/calculator/plus">덧셈 </a></li>
-        <li><a href="/contents/calculator/minus">뺄셈</a></li>
-        <li><a href="/contents/calculator/gob">곱셈</a></li>
-        <li><a href="/contents/calculator/nanum">나눗셈</a></li>
-        </div>
-    </section>
-
 
     <div class="container">
         <div class="tab-container">
@@ -950,13 +848,12 @@
                 <p><strong>온실가스 배출량 산정:</strong> Scope 1(직접배출), Scope 2(간접배출), Scope 3(기타간접배출)로 분류하여 체계적으로 산정합니다.</p>
                 <p><strong>LCA 산정:</strong> 제품의 전 생애주기(원료추출~폐기)를 고려한 환경영향을 정량적으로 평가합니다.</p>
                 <p><strong>공시 기준:</strong> 국내외 다양한 공시 기준을 준수하여 투명하고 신뢰성 있는 정보를 제공합니다.</p>
-            </div>
-
+        </div>
+        
             <button class="reset-btn" onclick="resetAll()">모든 데이터 초기화</button>
         </div>
     </div>
 
-    
     <script>
         // 탭 전환 기능
         function openTab(evt, tabName) {

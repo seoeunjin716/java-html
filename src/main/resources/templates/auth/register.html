@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>탄소 관리 시스템 - 회원가입</title>
+    <link rel="stylesheet" th:href="@{/styles/index.css}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            padding: 20px;
+        }
+
+        .register-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .register-header {
+            margin-bottom: 30px;
+        }
+
+        .register-header h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .register-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .register-form {
+            text-align: left;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            background: white;
+        }
+
+        .input-group input:valid {
+            border-color: #27ae60;
+        }
+
+        .input-group input:invalid {
+            border-color: #e74c3c;
+        }
+
+        .password-requirements {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .password-requirements h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .password-requirements ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .password-requirements li {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-requirements li::before {
+            content: '✓';
+            color: #27ae60;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            margin-top: 3px;
+        }
+
+        .checkbox-group label {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .checkbox-group a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        .register-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .register-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+        }
+
+        .register-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: #666;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e9ecef;
+        }
+
+        .divider span {
+            padding: 0 20px;
+            font-size: 0.9rem;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #2980b9;
+        }
+
+        .field-description {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        @media (max-width: 600px) {
+            .register-container {
+                margin: 10px;
+                padding: 30px 20px;
+            }
+            
+            .register-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .input-group {
+                margin-bottom: 15px;
+            }
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <h1>🌍 탄소 관리 시스템</h1>
+            <p>회원가입하여 탄소 관리 서비스를 시작하세요</p>
+        </div>
+
+        <div class="success-message" id="successMessage" style="display: none;">
+            회원가입이 완료되었습니다! 이메일을 확인해주세요.
+        </div>
+
+        <div class="error-message" id="errorMessage" style="display: none;">
+            회원가입 중 오류가 발생했습니다. 다시 시도해주세요.
+        </div>
+
+        <form class="register-form" id="registerForm" action="/api/register" method="POST">
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="name">이름 <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" placeholder="홍길동" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="username">아이디 <span class="required">*</span></label>
+                    <input type="text" id="username" name="username" placeholder="hong123" required>
+                    <div class="field-description">영문, 숫자 조합 4-20자</div>
+                </div>
+            </div>
+
+            <div class="input-group full-width">
+                <label for="email">이메일 <span class="required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="hong@example.com" required>
+                <div class="field-description">인증 링크가 발송됩니다</div>
+            </div>
+
+            <div class="input-group full-width">
+                <label for="password">비밀번호 <span class="required">*</span></label>
+                <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+                
+                <div class="password-requirements">
+                    <h4>비밀번호 요구사항</h4>
+                    <ul>
+                        <li>최소 8자 이상</li>
+                        <li>영문 대소문자 포함</li>
+                        <li>숫자 포함</li>
+                        <li>특수문자 포함 (!@#$%^&*)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="input-group full-width">
+                <label for="confirmPassword">비밀번호 확인 <span class="required">*</span></label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호를 다시 입력하세요" required>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                <label for="agreeTerms">
+                    <a href="/terms" target="_blank">이용약관</a> 및 
+                    <a href="/privacy" target="_blank">개인정보처리방침</a>에 동의합니다. <span class="required">*</span>
+                </label>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="agreeMarketing" name="agreeMarketing">
+                <label for="agreeMarketing">
+                    마케팅 정보 수신에 동의합니다 (선택)
+                    <br><small>이벤트 및 서비스 소식을 이메일로 받아보실 수 있습니다.</small>
+                </label>
+            </div>
+
+            <button type="submit" class="register-button">
+                회원가입
+            </button>
+        </form>
+
+        <div class="divider">
+            <span>이미 계정이 있으신가요?</span>
+        </div>
+
+        <div class="login-link">
+            <p><a href="/auth/login">로그인하기</a></p>
+        </div>
+    </div>
+</body>
+</html>
