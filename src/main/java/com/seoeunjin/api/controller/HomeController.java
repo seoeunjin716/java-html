@@ -21,12 +21,12 @@ public class HomeController {
 		return "calculator"; // Renders templates/calculator.html
 	}
 
-	@GetMapping("/register")
+	@GetMapping("/auth/register.html")
 	public String register() {
 		return "auth/register"; // Renders templates/auth/register.html
 	}
 
-	@GetMapping("/login")
+	@GetMapping("/auth/login.html")
 	public String login() {
 		return "auth/login"; // Renders templates/auth/login.html
 	}
