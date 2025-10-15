@@ -35,7 +35,7 @@ body {
   
   /* ───────────────── 상단 메뉴 ───────────────── */
   .top-nav {
-    background-color: #3b4b72; /* 조금 밝은 연보라 */
+    background-color: #80a0f3; /* 조금 밝은 연보라 */
   }
   
   .top-nav ul {
@@ -71,6 +71,20 @@ body {
     }
   }
   
+  .calc-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #d13cdf;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+}
+.calc-btn:hover {
+    background-color: #d13cdf;
+}
+
 /* ───────────────── 헤더 ───────────────── */
 .header {
     background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 100%);
