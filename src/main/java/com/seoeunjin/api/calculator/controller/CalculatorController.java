@@ -15,7 +15,7 @@ public class CalculatorController {
     public CalculatorController(CalculatorService calculatorService) {
         this.calculatorService = calculatorService;
     }
-    
+   
     @GetMapping("/calculator/calculator")
     public String calculator(@RequestParam(value = "num1", required = false) String num1,
                          @RequestParam(value = "num2", required = false) String num2) {

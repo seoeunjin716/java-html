@@ -37,23 +37,13 @@
             color: #555;
         }
         
-        input[type="number"] {
+        input[type="number"], select {
             width: 100%;
             padding: 10px;
             border: 2px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
             box-sizing: border-box;
-        }
-        
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            background-color: white;
-            cursor: pointer;
         }
         
         button {
@@ -93,12 +83,12 @@
 <body>
     <div class="calculator">
         <h1>계산기</h1>
-        
+
         <div class="input-group">
             <label for="num1">첫 번째 숫자:</label>
             <input type="number" id="num1" placeholder="숫자를 입력하세요">
         </div>
-        
+
         <div class="input-group">
             <label for="operation">연산자:</label>
             <select id="operation">
@@ -108,22 +98,15 @@
                 <option value="divide">나눗셈 (÷)</option>
             </select>
         </div>
-        
+
         <div class="input-group">
             <label for="num2">두 번째 숫자:</label>
             <input type="number" id="num2" placeholder="숫자를 입력하세요">
         </div>
-        
+
         <button onclick="calculate()">계산하기</button>
-        
         <div id="result" class="result" style="display: none;"></div>
     </div>
-    
-    <form action="/calculator/calculator" method="get">
-        <input type="text" name="num1" placeholder="숫자1 입력">
-        <input type="text" name="num2" placeholder="숫자2 입력">
-        <button type="submit">계산</button>
-    </form>
 
     <script>
         function calculate() {
@@ -131,7 +114,7 @@
             const num2 = parseFloat(document.getElementById('num2').value);
             const operation = document.getElementById('operation').value;
             const resultDiv = document.getElementById('result');
-            
+
             // 입력값 검증
             if (isNaN(num1) || isNaN(num2)) {
                 resultDiv.textContent = '올바른 숫자를 입력해주세요!';
@@ -139,32 +122,22 @@
                 resultDiv.style.display = 'block';
                 return;
             }
-            
+
             let result;
             let operationText;
-            
+
             switch(operation) {
-                case 'add':
-                    result = num1 + num2;
-                    operationText = '+';
-                    break;
-                case 'subtract':
-                    result = num1 - num2;
-                    operationText = '-';
-                    break;
-                case 'multiply':
-                    result = num1 * num2;
-                    operationText = '×';
-                    break;
+                case 'add': result = num1 + num2; operationText = '+'; break;
+                case 'subtract': result = num1 - num2; operationText = '-'; break;
+                case 'multiply': result = num1 * num2; operationText = '×'; break;
                 case 'divide':
-                    if (num2 === 0) {
+                    if(num2 === 0){
                         resultDiv.textContent = '0으로 나눌 수 없습니다!';
                         resultDiv.className = 'result error';
                         resultDiv.style.display = 'block';
                         return;
                     }
-                    result = num1 / num2;
-                    operationText = '÷';
+                    result = num1 / num2; operationText = '÷';
                     break;
                 default:
                     resultDiv.textContent = '올바른 연산자를 선택해주세요!';
@@ -172,18 +145,22 @@
                     resultDiv.style.display = 'block';
                     return;
             }
-            
-            // 결과 표시
+
+            // 화면에 결과 표시
             resultDiv.textContent = `${num1} ${operationText} ${num2} = ${result}`;
             resultDiv.className = 'result';
             resultDiv.style.display = 'block';
+
+            // 서버로 값 전송 (Spring Controller에서 처리)
+            fetch(`/calculator/calculator?num1=${num1}&num2=${num2}&operator=${operation}`)
+                .then(res => res.text())
+                .then(data => console.log('서버 출력 완료:', data))
+                .catch(err => console.error(err));
         }
-        
+
         // Enter 키로 계산하기
         document.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                calculate();
-            }
+            if(event.key === 'Enter') calculate();
         });
     </script>
 </body>
