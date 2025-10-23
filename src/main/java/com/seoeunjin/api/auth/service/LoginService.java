@@ -9,7 +9,7 @@ import com.seoeunjin.api.common.domain.Messenger;
 @Service
 public class LoginService {
     
-    public int login(LoginDTO loginDTO) {
+    public Messenger login(LoginDTO loginDTO) {
         System.out.println("로그인 서비스로 들어옴");
         System.out.println("DTO에서 서비스로 전달된 이메일 : " + loginDTO.getEmail());
         System.out.println("DTO에서 서비스로 전달된 비밀번호 : " + loginDTO.getPassword());
@@ -25,7 +25,7 @@ public class LoginService {
         if(loginVO.getEmail().equals(loginDTO.getEmail())
         && loginVO.getPassword().equals(loginDTO.getPassword())){
            code=0; 
-           messege="로그인 성공"
+           messege="로그인 성공";
         }
         else if(!loginVO.getEmail().equals(loginDTO.getEmail())
         && loginVO.getPassword().equals(loginDTO.getPassword())) {
@@ -36,7 +36,8 @@ public class LoginService {
             code=2;
             messege="비밀번호 불일치";} //비밀번호 불일치
 
-        else{return 3;}
+        else{code=3;
+        messege="이메일과 비밀번호 모두 불일치";}
 
         Messenger messenger = new Messenger();
         messenger.setCode(code);

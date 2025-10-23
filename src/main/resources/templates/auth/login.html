@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -181,8 +182,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .remember-me {
@@ -223,13 +229,14 @@
                 margin: 20px;
                 padding: 30px 20px;
             }
-            
+
             .login-header h1 {
                 font-size: 1.5rem;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="login-container">
         <div class="login-header">
@@ -242,17 +249,17 @@
 
         <form action="/api/login" method="get">
             <div class="form-group">
-            <label for="email">이메일</label>
-            <input type="text" id="email" name="email" placeholder="이메일을 입력하세요" value="a" >
+                <label for="email">이메일</label>
+                <input type="text" id="email" name="email" placeholder="이메일을 입력하세요" value="a">
             </div>
-            
+
             <div class="form-group">
-            <label for="password">비밀번호</label>
-            <input type="text" id="password" name="password" placeholder="비밀번호를 입력하세요" required value="b">
+                <label for="password">비밀번호</label>
+                <input type="text" id="password" name="password" placeholder="비밀번호를 입력하세요" required value="b">
             </div>
-            
+
             <button type="submit" class="login-button">로그인</button>
-            </form>
+        </form>
 
 
         <div class="divider">
@@ -264,26 +271,31 @@
         </div>
     </div>
 
+    <div th:if="${messenger != null}" th:object="${messenger}">
+        <p>code: <span th:text="*{code}">CODE</span></p>
+        <p>message: <span th:text="*{message}">MESSAGE</span></p>
+    </div>
+
     <script>
         // 로그인 폼 처리
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-            
+
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const rememberMe = document.getElementById('rememberMe').checked;
-            
+
             // 버튼 비활성화 및 로딩 표시
             const loginButton = document.getElementById('loginButton');
             const loading = document.getElementById('loading');
-            
+
             loginButton.disabled = true;
             loginButton.textContent = '로그인 중...';
             loading.style.display = 'block';
-            
+
             // 에러 메시지 숨기기
             hideMessages();
-            
+
             try {
                 const response = await fetch('/api/login', {
                     method: 'POST',
@@ -296,29 +308,29 @@
                         rememberMe: rememberMe
                     })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (response.ok) {
                     // 로그인 성공
                     showSuccess('로그인 성공! 메인 페이지로 이동합니다.');
-                    
+
                     // 토큰 저장
                     localStorage.setItem('token', data.token);
                     if (rememberMe) {
                         localStorage.setItem('rememberMe', 'true');
                     }
-                    
+
                     // 2초 후 메인 페이지로 이동
                     setTimeout(() => {
                         window.location.href = '/';
                     }, 2000);
-                    
+
                 } else {
                     // 로그인 실패
                     showError(data.message || '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
                 }
-                
+
             } catch (error) {
                 console.error('로그인 오류:', error);
                 showError('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
@@ -359,14 +371,14 @@
         }
 
         // Enter 키로 로그인
-        document.addEventListener('keypress', function(e) {
+        document.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 document.getElementById('loginForm').dispatchEvent(new Event('submit'));
             }
         });
 
         // 페이지 로드 시 저장된 이메일 복원
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             const savedEmail = localStorage.getItem('savedEmail');
             if (savedEmail) {
                 document.getElementById('email').value = savedEmail;
@@ -375,11 +387,13 @@
         });
 
         // 이메일 입력 시 저장
-        document.getElementById('email').addEventListener('blur', function() {
+        document.getElementById('email').addEventListener('blur', function () {
             if (document.getElementById('rememberMe').checked) {
                 localStorage.setItem('savedEmail', this.value);
             }
         });
     </script>
+
 </body>
+
 </html>
