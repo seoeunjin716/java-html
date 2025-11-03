@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>기상 데이터 목록</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {font-family: 'Malgun Gothic', Arial, sans-serif; margin: 20px; background:#f7f9fc; color:#333;}
+        h1 {text-align:center; color:#2c3e50; margin-bottom: 10px;}
+        .subtitle {text-align:center; color:#7f8c8d; font-size:0.9em; margin-bottom:20px;}
+        #search {width:100%; max-width:500px; padding:12px; margin:20px auto; display:block; font-size:16px; border:1px solid #ccc; border-radius:8px;}
+        table {width:100%; max-width:1000px; margin:0 auto; border-collapse:collapse; background:#fff; box-shadow:0 4px 12px rgba(0,0,0,.1); border-radius:8px; overflow:hidden;}
+        th, td {padding:12px; text-align:center; border-bottom:1px solid #eee;}
+        th {background:#3498db; color:#fff; font-weight:bold; cursor:pointer; user-select:none; position:relative;}
+        th:hover {background:#2980b9;}
+        th.sorted-asc::after {content:" ▲"; font-size:0.8em;}
+        th.sorted-desc::after {content:" ▼"; font-size:0.8em;}
+        tr:nth-child(even) {background:#f8f9fa;}
+        tr:hover {background:#e3f2fd;}
+        .no-data {text-align:center; color:#e74c3c; padding:20px; font-style:italic;}
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {display:block;}
+            thead tr {display:none;}
+            tr {margin-bottom:10px; border:1px solid #ddd; border-radius:8px;}
+            td {text-align:right; position:relative; padding-left:50%; white-space:nowrap;}
+            td::before {content:attr(data-label); position:absolute; left:15px; font-weight:bold; color:#555;}
+        }
+    </style>
+</head>
+<body>
+
+<h1>기상 데이터 (@train_weather.csv)</h1>
+<p class="subtitle">2023년 1월 초순 기상 기록</p>
+
+<input type="text" id="search" placeholder="검색어 입력 (날짜, 기온, 강수량 등)" autocomplete="off">
+
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th onclick="sortTable(0)">일시</th>
+            <th onclick="sortTable(1)">평균기온(℃)</th>
+            <th onclick="sortTable(2)">최고기온(℃)</th>
+            <th onclick="sortTable(3)">최고기온시각</th>
+            <th onclick="sortTable(4)">최저기온(℃)</th>
+            <th onclick="sortTable(5)">최저기온시각</th>
+            <th onclick="sortTable(6)">일교차</th>
+            <th onclick="sortTable(7)">강수량(mm)</th>
+        </tr>
+    </thead>
+    <tbody id="tbody">
+        <!-- 데이터는 아래 JavaScript에서 삽입 -->
+    </tbody>
+</table>
+
+<script>
+    // === 제공된 CSV 데이터 (직접 삽입) ===
+    const csvData = `
+일시,평균기온(℃),최고기온(℃),최고기온시각,최저기온(℃),최저기온시각,일교차,강수량(mm)
+2023-01-01,-1.7,5.5,13:55,-7.7,08:14,13.2,
+2023-01-02,-4.1,1.3,14:29,-9.0,07:45,10.3,
+2023-01-03,-6.2,1.7,14:58,-14.3,08:03,16.0,
+2023-01-04,-3.8,3.9,15:34,-10.8,03:28,14.7,
+2023-01-05,-5.3,2.3,15:31,-10.6,05:58,12.9,
+2023-01-06,-2.7,4.5,15:16,-10.1,06:45,14.6,3.1
+2023-01-07,0.9,4.0,14:36,-3.6,23:57,7.6,0.4
+2023-01-08,-1.9,2.9,15:40,-7.2,03:45,10.1,
+2023-01-09,2.7,9.1,14:52,-3.1,23:57,12.2,
+2023-01-10,-0.2,8.0,15:16,-7.2,07:45,15.2,
+`.trim();
+
+    // CSV 파싱 (간단한 split 방식)
+    const rows = csvData.split('\n').map(line => line.split(','));
+    const headers = rows[0];
+    const data = rows.slice(1).map(row => {
+        const obj = {};
+        headers.forEach((h, i) => {
+            let val = row[i] || '';
+            // 숫자 변환 시도
+            if (!isNaN(val) && val !== '' && !h.includes('시각') && !h.includes('일시')) {
+                obj[h] = parseFloat(val);
+            } else {
+                obj[h] = val;
+            }
+        });
+        return obj;
+    });
+
+    let currentData = [...data];
+    let sortCol = -1;
+    let sortAsc = true;
+
+    const tbody = document.getElementById('tbody');
+    const searchInput = document.getElementById('search');
+
+    // 테이블 렌더링
+    function renderTable() {
+        tbody.innerHTML = '';
+        if (currentData.length === 0) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td colspan="8" class="no-data">검색 결과가 없습니다.</td>`;
+            tbody.appendChild(tr);
+            return;
+        }
+
+        currentData.forEach(row => {
+            const tr = document.createElement('tr');
+            headers.forEach((h, i) => {
+                const td = document.createElement('td');
+                td.textContent = row[h] == null ? '' : row[h];
+                td.setAttribute('data-label', h);
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+    }
+
+    // 정렬 함수
+    window.sortTable = function(colIndex) {
+        const colName = headers[colIndex];
+        if (sortCol === colIndex) {
+            sortAsc = !sortAsc;
+        } else {
+            sortCol = colIndex;
+            sortAsc = true;
+        }
+
+        currentData.sort((a, b) => {
+            let av = a[colName], bv = b[colName];
+            if (av == null) av = '';
+            if (bv == null) bv = '';
+
+            // 숫자 vs 문자열 처리
+            if (typeof av === 'number' && typeof bv === 'number') {
+                return (av - bv) * (sortAsc ? 1 : -1);
+            }
+
+            return String(av).localeCompare(String(bv)) * (sortAsc ? 1 : -1);
+        });
+
+        // 정렬 아이콘 업데이트
+        document.querySelectorAll('th').forEach((th, i) => {
+            th.classList.remove('sorted-asc', 'sorted-desc');
+            if (i === colIndex) {
+                th.classList.add(sortAsc ? 'sorted-asc' : 'sorted-desc');
+            }
+        });
+
+        renderTable();
+    };
+
+    // 검색 기능
+    searchInput.addEventListener('input', () => {
+        const term = searchInput.value.trim().toLowerCase();
+        if (!term) {
+            currentData = [...data];
+        } else {
+            currentData = data.filter(row =>
+                Object.values(row).some(val =>
+                    String(val).toLowerCase().includes(term)
+                )
+            );
+        }
+        renderTable();
+    });
+
+    // 초기 렌더링
+    renderTable();
+</script>
+
+</body>
+</html>

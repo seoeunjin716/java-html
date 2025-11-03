@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS test;
+
+CREATE TABLE test (
+    대상연도 TEXT,
+    기관구분 TEXT,
+    기관명 TEXT,
+    "기준배출량(tonCO₂-eq)" NUMERIC,
+    "온실가스 순 배출량(tonCO₂-eq)" NUMERIC,
+    "온실가스 총 감축량(tonCO₂-eq)" NUMERIC,
+    "온실가스 감축(%)" NUMERIC,
+    "권장목표 달성유무(13.2%)" TEXT,
+    비고 TEXT
+);

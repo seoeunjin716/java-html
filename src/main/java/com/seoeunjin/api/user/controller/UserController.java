@@ -13,7 +13,13 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.seoeunjin.api.common.domain.Messenger;
 import com.seoeunjin.api.user.domain.UserDTO;
@@ -22,12 +28,20 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
+    @PostMapping("")
+    public String save(Model model){
+        UserDTO user = new UserDTO();
+        Messenger messenger = userService.save(user);
+        model.addAttribute("messenger", messenger);
+        return "user/list";
+    }
 
-    @GetMapping("/user/list")
-    public String getUserList(Model model){
+    @PostMapping("/all")
+    public String saveAll(Model model){
         try {
             String csvFilePath = "src/main/resources/static/csv/train.csv";
             // CSV 파일 읽기
@@ -63,7 +77,7 @@ public class UserController {
 
                 }
                 
-                Messenger messenger = userService.getTop5Passengers(users);
+                Messenger messenger = userService.saveAll(users);
                 parser.close();
                 reader.close();
 
@@ -83,4 +97,36 @@ public class UserController {
             return "user/list";
         }
 
-}}
+}
+@PutMapping("/{id}")
+public String update(Model model) {
+    UserDTO user = new UserDTO();
+    Messenger messenger = userService.update(user);
+    model.addAttribute("messenger", messenger);
+    return "user/detail";
+}
+
+@DeleteMapping("/{id}")
+public String delete(Model model) {
+    String id = "";
+    Messenger messenger = userService.delete(id);
+    model.addAttribute("messenger", messenger);
+    return "user/list";
+}
+
+@GetMapping("/Id/{id}")
+public String findById(Model model) {
+    String id = "";
+    Messenger messenger = userService.findById(id);
+    model.addAttribute("messenger", messenger);
+    return "user/list";
+}
+
+@GetMapping("/All")
+public String findAll(Model model) {
+
+    Messenger messenger = userService.findAll();
+    model.addAttribute("messenger", messenger);
+    return "";
+}
+}
